@@ -17,6 +17,7 @@
       .stores { display: grid; gap: 12px; }
       .store { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 58px; padding: 12px 18px; border-radius: 15px; color: white; font-weight: 700; text-decoration: none; font-size: 17px; transition: transform .15s ease, filter .15s ease; }
       .store:hover { transform: translateY(-2px); filter: brightness(.96); }
+      .store-logo { width: 24px; height: 24px; object-fit: contain; }
       .apple { background: #111827; }
       .google { background: #176b44; }
       .qr-wrap { margin-top: 28px; padding-top: 24px; border-top: 1px solid #e3eaf3; }
@@ -32,18 +33,17 @@
     <main>
       <section class="card">
         <img class="logo" src="app-icon.png" alt="شعار الحسبة الجمركية" />
-        <p class="lead">اختر متجر جهازك لتنزيل التطبيق</p>
         <p class="status" id="redirect-status" aria-live="polite">جارٍ تحديد نوع جهازك…</p>
 
         <div class="stores">
-          <a class="store apple" id="apple-store" href="https://apps.apple.com/app/id6811443384"> تنزيل من App Store</a>
-          <a class="store google" id="google-play" href="https://play.google.com/store/apps/details?id=com.fahadalajmi.customscalculator">▶ تنزيل من Google Play</a>
+          <a class="store apple" id="apple-store" href="https://apps.apple.com/app/id6811443384"><img class="store-logo" src="apple.svg" alt="" />تنزيل من App Store</a>
+          <a class="store google" id="google-play" href="https://play.google.com/store/apps/details?id=com.fahadalajmi.customscalculator"><img class="store-logo" src="google-play.svg" alt="" />تنزيل من Google Play</a>
         </div>
 
         <div class="qr-wrap">
           <h2>شارك رابط التنزيل</h2>
           <p>امسح الرمز لفتح هذه الصفحة على أي جهاز.</p>
-          <img id="qr-code" alt="رمز QR لصفحة تنزيل الحسبة الجمركية" />
+          <img id="qr-code" src="download-qr.png" alt="رمز QR لصفحة تنزيل الحسبة الجمركية" />
         </div>
         <p class="note">إذا لم يتم التحويل تلقائيًا، اختر المتجر المناسب من الأزرار أعلاه.</p>
       </section>
@@ -52,11 +52,7 @@
     <script>
       const iosUrl = 'https://apps.apple.com/app/id6811443384';
       const androidUrl = 'https://play.google.com/store/apps/details?id=com.fahadalajmi.customscalculator';
-      const landingUrl = window.location.href.split('#')[0];
       const status = document.getElementById('redirect-status');
-      const qr = document.getElementById('qr-code');
-
-      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=360x360&format=svg&data=${encodeURIComponent(landingUrl)}`;
 
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       const isAndroid = /android/i.test(userAgent);
