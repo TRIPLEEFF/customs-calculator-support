@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c356b" />
+    <title>تنزيل الحسبة الجمركية</title>
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: #f2f6fc; color: #112f57; font-family: Tahoma, Arial, sans-serif; line-height: 1.75; }
+      main { width: min(560px, calc(100% - 32px)); margin: 0 auto; padding: 46px 0; text-align: center; }
+      .card { background: #fff; border: 1px solid #dce5f1; border-radius: 28px; padding: 34px 24px; box-shadow: 0 18px 44px rgba(12, 53, 107, .12); }
+      .logo { display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 18px; border-radius: 22px; background: #0c356b; color: white; font-size: 36px; }
+      h1 { margin: 0; font-size: clamp(28px, 7vw, 39px); }
+      .lead { margin: 9px 0 24px; color: #59708f; font-size: 16px; }
+      .status { min-height: 28px; margin: 0 0 18px; color: #176b44; font-weight: 700; }
+      .stores { display: grid; gap: 12px; }
+      .store { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 58px; padding: 12px 18px; border-radius: 15px; color: white; font-weight: 700; text-decoration: none; font-size: 17px; transition: transform .15s ease, filter .15s ease; }
+      .store:hover { transform: translateY(-2px); filter: brightness(.96); }
+      .apple { background: #111827; }
+      .google { background: #176b44; }
+      .qr-wrap { margin-top: 28px; padding-top: 24px; border-top: 1px solid #e3eaf3; }
+      .qr-wrap h2 { margin: 0 0 6px; font-size: 19px; }
+      .qr-wrap p { margin: 0 0 14px; color: #59708f; font-size: 14px; }
+      #qr-code { width: 180px; height: 180px; border-radius: 12px; border: 1px solid #e3eaf3; image-rendering: pixelated; }
+      .note { margin: 17px 0 0; color: #6b7d95; font-size: 13px; }
+      footer { padding-top: 22px; color: #6b7d95; font-size: 13px; }
+      footer a { color: #0c4d99; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card" aria-labelledby="page-title">
+        <div class="logo" aria-hidden="true">⌁</div>
+        <h1 id="page-title">الحسبة الجمركية</h1>
+        <p class="lead">اختر متجر جهازك لتنزيل التطبيق</p>
+        <p class="status" id="redirect-status" aria-live="polite">جارٍ تحديد نوع جهازك…</p>
+
+        <div class="stores">
+          <a class="store apple" id="apple-store" href="https://apps.apple.com/app/id6811443384"> تنزيل من App Store</a>
+          <a class="store google" id="google-play" href="https://play.google.com/store/apps/details?id=com.fahadalajmi.customscalculator">▶ تنزيل من Google Play</a>
+        </div>
+
+        <div class="qr-wrap">
+          <h2>شارك رابط التنزيل</h2>
+          <p>امسح الرمز لفتح هذه الصفحة على أي جهاز.</p>
+          <img id="qr-code" alt="رمز QR لصفحة تنزيل الحسبة الجمركية" />
+        </div>
+        <p class="note">إذا لم يتم التحويل تلقائيًا، اختر المتجر المناسب من الأزرار أعلاه.</p>
+      </section>
+      <footer><a href="index.html">صفحة الدعم</a> · © 2026 الحسبة الجمركية</footer>
+    </main>
+    <script>
+      const iosUrl = 'https://apps.apple.com/app/id6811443384';
+      const androidUrl = 'https://play.google.com/store/apps/details?id=com.fahadalajmi.customscalculator';
+      const landingUrl = window.location.href.split('#')[0];
+      const status = document.getElementById('redirect-status');
+      const qr = document.getElementById('qr-code');
+
+      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=360x360&format=svg&data=${encodeURIComponent(landingUrl)}`;
+
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isAndroid = /android/i.test(userAgent);
+      const isIOS = /iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const storeUrl = isIOS ? iosUrl : isAndroid ? androidUrl : null;
+
+      if (storeUrl) {
+        status.textContent = 'سيتم تحويلك إلى المتجر المناسب…';
+        window.setTimeout(() => { window.location.assign(storeUrl); }, 1100);
+      } else {
+        status.textContent = 'اختر المتجر المناسب لجهازك';
+      }
+    </script>
+  </body>
+</html>
